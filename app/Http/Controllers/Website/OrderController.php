@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Website;
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Order;
@@ -65,7 +66,9 @@ class OrderController extends Controller
         if($newOrder)
         {
             $newOrder->products()->attach($products);
-            auth()->user()->cart->products()->detach();
+            /* auth()->user()->cart->products()->detach(); */
+
+            event(new OrderCreated($newOrder,auth()->user()));
         }
 
         return view('website.complete_order');
