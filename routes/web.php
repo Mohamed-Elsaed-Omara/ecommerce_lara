@@ -48,7 +48,11 @@ Route::post('remove-from-cart/{productId}',[CartController::class,'removeFromcar
 Route::post('update-cart',[CartController::class,'updateCart']);
 Route::post('apply-coupon',[CartController::class,'applyCoupon']);
 Route::get('/check-out',[OrderController::class,'checkout']);
-Route::post('/create-order',[OrderController::class,'store']);
+Route::get('/create-order',[OrderController::class,'initiatePayment'])->name('pay');
+
+Route::get('/payment-success', [OrderController::class, 'handleSuccess'])->name('payment.success');
+Route::get('/payment-failure', [OrderController::class, 'handleFailure'])->name('payment.failure');
+
 
 Route::get('/profile',[UserController::class,'getProfile']);
 Route::post('/profile',[UserController::class,'postProfile']);
